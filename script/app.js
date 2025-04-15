@@ -65,7 +65,7 @@ const displayPets = (pets) => {
   </figure>
   <div class="card-body">
     <h2 class="card-title">${pet.breed}</h2>
-    <p>${pet.pet_details.slice(0, 100)}</p>
+    <p>${pet.pet_details.slice(0, 100)}...</p>
     <div class="card-actions justify-end">
       <button class="selects btn btn-primary ">Select</button>
       <button onclick="handleDetails('${pet.petId}')" class="btn bg-red-500 details ">Details</button>
