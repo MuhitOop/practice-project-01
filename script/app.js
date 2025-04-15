@@ -68,6 +68,7 @@ const displayPets = (pets) => {
     <p>${pet.pet_details.slice(0, 100)}</p>
     <div class="card-actions justify-end">
       <button class="selects btn btn-primary ">Select</button>
+      <button onclick="handleDetails('${pet.petId}')" class="btn bg-red-500 details ">Details</button>
     </div>
   </div>
 </div>
@@ -108,6 +109,34 @@ const getValueById = (id) => {
     const element = document.getElementById(id).innerText;
     const convertedValue = parseInt(element);
     return convertedValue;
+}
+
+
+
+const handleDetails = async(petId) => {
+    const response = await fetch(`https://openapi.programming-hero.com/api/peddy/pet/${petId}`);
+    const data = await response.json();
+    showDetails(data.petData);
+    
+
+}
+
+const showDetails = (petDetails) => {
+  const modalBody = document.getElementById("my_modal_2");
+    modalBody.showModal();
+    
+    modalBody.innerHTML = `
+    <div class="modal-box">
+        <p class="inline">Pet Name:</p>
+        <h3 class="text-lg font-bold inline">${petDetails.pet_name}</h3>
+        <p class="py-4">${petDetails.pet_details}</p>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+
+
+    `;
 }
 
 loadCategory();

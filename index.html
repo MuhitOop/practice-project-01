@@ -77,9 +77,13 @@
       </div>
     </header>
 
-    <ul id="selected-container">
+    <!-- Open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="my_modal_2.showModal()">open modal</button> -->
+    <dialog id="my_modal_2" class="modal">
+      
+    </dialog>
 
-    </ul>
+    <ul id="selected-container"></ul>
 
     <main>
       <!-- category section -->
@@ -87,9 +91,10 @@
         id="category-container"
         class="flex gap-5 w-full justify-center my-5"
       ></section>
-      <h1 id="status" class="text-center text-red-500 mt-12 font-bold">No Data Found !!!!</h1>
+      <h1 id="status" class="text-center text-red-500 mt-12 font-bold">
+        No Data Found !!!!
+      </h1>
       <section class="mt-8 w-11/12 mx-auto">
-
         <span id="spinner" class="loading loading-bars loading-xl"></span>
         <div
           class="pets-container flex justify-center gap-5 flex-wrap"
