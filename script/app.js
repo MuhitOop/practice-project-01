@@ -1,8 +1,10 @@
 //function for spinner
 const makeHide = (id) => {
-    document.getElementById(id).style.display = "none";
-}
-
+  document.getElementById(id).style.display = "none";
+};
+const makeShow = (id) => {
+  document.getElementById(id).style.display = "block";
+};
 
 // loads
 
@@ -15,13 +17,17 @@ const loadCategory = async () => {
 };
 
 const loadPet = async (categoryName) => {
-    document.getElementById("status").style.display = "none";
-    document.getElementById("petsContainer").style.display = "flex";
+  document.getElementById("status").style.display = "none";
+  document.getElementById("petsContainer").style.display = "flex";
+  makeShow("spinner");
   const response = await fetch(
     `https://openapi.programming-hero.com/api/peddy/category/${categoryName}`
   );
   const data = await response.json();
-  displayPets(data.data);
+  if (data.data) {
+    displayPets(data.data);
+    makeHide("spinner");
+  }
 };
 
 // shows
@@ -40,14 +46,13 @@ const showCategory = (categories) => {
 };
 
 const displayPets = (pets) => {
-    const petsContainer = document.getElementById("petsContainer");
-    petsContainer.innerHTML = "";
+  const petsContainer = document.getElementById("petsContainer");
+  petsContainer.innerHTML = "";
 
-    if (pets.length < 1) {
-        document.getElementById("petsContainer").style.display = "none";
-        document.getElementById("status").style.display = "block";
-    }
-
+  if (pets.length < 1) {
+    document.getElementById("petsContainer").style.display = "none";
+    document.getElementById("status").style.display = "block";
+  }
 
   pets.forEach((pet) => {
     const div = document.createElement("div");
@@ -60,17 +65,50 @@ const displayPets = (pets) => {
   </figure>
   <div class="card-body">
     <h2 class="card-title">${pet.breed}</h2>
-    <p>${pet.pet_details.slice(0,100)}</p>
+    <p>${pet.pet_details.slice(0, 100)}</p>
     <div class="card-actions justify-end">
-      <button class="btn btn-primary">Select</button>
+      <button class="selects btn btn-primary ">Select</button>
     </div>
   </div>
 </div>
         `;
-      
-      petsContainer.append(div);
+
+    petsContainer.append(div);
   });
+    
+    
+    const allSelectsBtn = document.getElementsByClassName("selects");
+    for (const btn of allSelectsBtn) {
+        btn.addEventListener("click", (event) => {
+            const title =
+              event.target.parentNode.parentNode.childNodes[1].innerText;
+            console.log(title)
+
+            const listContainer =
+                document.getElementById("selected-container");
+            const div = document.createElement("div");
+            div.classList.add("flex", "gap-4", "justify-center", "items-center")
+            div.innerHTML = `
+            <li>${title}</li>
+            <button class="delete-btn btn">Delete</button>
+            
+            `
+            listContainer.append(div);
+
+            const prevCount = getValueById("count");
+            const sum = prevCount + 1; 
+
+            document.getElementById("count").innerText = sum; 
+        } )
+    }
 };
 
+
+const getValueById = (id) => {
+    const element = document.getElementById(id).innerText;
+    const convertedValue = parseInt(element);
+    return convertedValue;
+}
+
 loadCategory();
-loadPet("cat")
+loadPet("cat");
